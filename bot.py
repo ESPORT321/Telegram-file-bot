@@ -1,3 +1,4 @@
+from keep_alive import keep_alive
 from pyrogram import Client
 from pyrogram import filters
 from config import BOT_TOKEN, API_ID, API_HASH
@@ -14,6 +15,9 @@ async def start(client, message):
     await message.reply_text(
         "🤖 Bot Online!\n\nWelcome to Telegram File Store Bot."
     )
+
+print("Bot Started...")
+keep_alive()
 
 print("Bot Started...")
 app.run()
