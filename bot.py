@@ -1,12 +1,5 @@
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from config import (
-    BOT_TOKEN,
-    API_ID,
-    API_HASH,
-    CHANNEL_USERNAME
-)
+from pyrogram import Client
+from config import BOT_TOKEN, API_ID, API_HASH
 
 app = Client(
     "TelegramFileBot",
@@ -15,26 +8,15 @@ app = Client(
     bot_token=BOT_TOKEN
 )
 
+@app.on_message()
+async def all_messages(client, message):
+    if message.text == "/start":
+        await message.reply_text(
+            "🤖 Bot Online!\n\nWelcome to Telegram File Store Bot."
+        )
 
-@app.on_message(filters.command("start"))
-async def start(client, message):
-    user_id = message.from_user.id
-
-    try:
-        member = await client.get_chat_member(CHANNEL_USERNAME, user_id)
-
-        if member.status in ["member", "administrator", "creator"]:
-            await message.reply_text(
-                "✅ Welcome!\n\nYou have joined the channel successfully."
-            )
-
-        else:
-            raise Exception
-
-    except Exception:
-        buttons = InlineKeyboardMarkup(
-            [
-                [
+print("Bot Started...")
+app.run()                [
                     InlineKeyboardButton(
                         "📢 Join Channel",
                         url=f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}"
